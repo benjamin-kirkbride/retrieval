@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+dependencies = [
+    "psycopg2-binary>=2.9.6",
+]
+
+[project]
+name = "retrieval"
+version = "0.0.1"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = [
+    "coverage",
+    "pytest>=7.3",
+    "mypy>=1.0.0",
+    "black",
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 120
+select = [
+    "E",
+    "F",
+    "UP",
+    "N",
+    "S",
+    "C",
+    "B",
+    "T",
+]
+
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+
+[tool.setuptools]
+packages = ["retrieval"]
