@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  postgres:
+    build:
+      dockerfile: postgres/Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "54322:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/initdb/:/docker-entrypoint-initdb.d/
+      - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+
+  retriever:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      OPENAI_API_KEY: ${OPEN_AI_API_KEY}
+      BEARER_TOKEN: ${BEARER_TOKEN}
+      DATASTORE: "postgres"
+      PG_HOST: "postgres"
+      PG_PASSWORD: ${POSTGRES_PASSWORD}
+      PG_USER: ${POSTGRES_USER}
+      PG_DB: ${POSTGRES_DB}
+    ports:
+      - "8800:80"
+
+volumes:
+  postgres_data:
